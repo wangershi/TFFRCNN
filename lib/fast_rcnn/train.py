@@ -172,6 +172,9 @@ class SolverWrapper(object):
 
         last_snapshot_iter = -1
         timer = Timer()
+        
+        assert restore_iter < max_iters, 'You should set max_steps bigger!'
+        
         # for iter in range(max_iters):
         for iter in range(restore_iter, max_iters):
             timer.tic()
