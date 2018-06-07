@@ -166,6 +166,12 @@ class SolverWrapper(object):
                 stem = os.path.splitext(os.path.basename(ckpt.model_checkpoint_path))[0]
                 restore_iter = int(stem.split('_')[-1])
                 sess.run(global_step.assign(restore_iter))
+                
+                numberRestore = restore_iter / cfg.TRAIN.STEPSIZE
+                print ('Decrease learning rate %d times' % numberRestore)
+                while(numberRestore > 0):
+                    sess.run(tf.assign(lr, lr.eval() * cfg.TRAIN.GAMMA))
+                    numberRestore -= 1
                 print 'done'
             except:
                 raise 'Check your pretrained {:s}'.format(ckpt.model_checkpoint_path)
